@@ -1,27 +1,36 @@
-// Dönecek olan elementi seçiyoruz
 const head = document.getElementById('flowerHead');
 
-// Fare hareketini dinliyoruz
-document.addEventListener('mousemove', (e) => {
-    
-    // Çiçeğin merkezini bul
+// Hareketi hesaplayan ana fonksiyon
+function moveFlower(x, y) {
     const rekt = head.getBoundingClientRect();
     const flowerCenterX = rekt.left + rekt.width / 2;
     const flowerCenterY = rekt.top + rekt.height / 2;
 
-    // Fare ile çiçek arasındaki mesafeyi hesapla
-    const deltaX = e.clientX - flowerCenterX;
-    const deltaY = e.clientY - flowerCenterY;
+    const deltaX = x - flowerCenterX;
+    const deltaY = y - flowerCenterY;
 
-    // Açıyı hesapla (Radyan)
     const angleRad = Math.atan2(deltaY, deltaX);
-
-    // Dereceye çevir
     let angleDeg = angleRad * (180 / Math.PI);
 
-    // Yüzün doğru yöne bakması için 90 derece ekle
+    // Yüzün başlangıç yönüne göre düzeltme
     angleDeg += 90;
 
-    // Hareketi uygula
+    // Dönüşü uygula
     head.style.transform = `rotate(${angleDeg}deg)`;
+}
+
+// --- PC için Fare Takibi ---
+document.addEventListener('mousemove', (e) => {
+    moveFlower(e.clientX, e.clientY);
 });
+
+// --- Mobil için Dokunma Takibi ---
+// 'touchmove' parmağın ekran üzerindeki hareketidir.
+document.addEventListener('touchmove', (e) => {
+    // Sayfanın kaymasını (scroll) engelle ki rahatça oynayabilsin
+    e.preventDefault(); 
+    
+    // İlk parmağın (touches[0]) konumunu al
+    const touch = e.touches[0];
+    moveFlower(touch.clientX, touch.clientY);
+}, { passive: false }); // passive: false, preventDefault'un çalışması için gerekli
