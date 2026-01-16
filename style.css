@@ -1,108 +1,179 @@
-/* Genel sayfa düzeni */
+/* --- GENEL DÜZEN --- */
 body {
     margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to bottom, #87CEEB, #e0f7fa);
+    /* Daha yumuşak bir gökyüzü geçişi */
+    background: radial-gradient(circle at center, #a8e6ff, #74c2e1);
     overflow: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    touch-action: none; /* Mobilde sayfa kaymasını engeller */
 }
 
-/* Tüm çiçeği kapsayan kutu */
+/* --- ARKA PLAN EFEKTLERİ (BULUTLAR) --- */
+.background-effects {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    filter: blur(20px);
+    animation: floatCloud 20s infinite linear;
+}
+
+.c1 { width: 200px; height: 100px; top: 20%; left: -200px; }
+.c2 { width: 300px; height: 150px; top: 50%; left: -300px; animation-duration: 35s; animation-delay: -5s; }
+
+@keyframes floatCloud {
+    from { transform: translateX(0); }
+    to { transform: translateX(120vw); }
+}
+
+/* --- ÇİÇEK KAPSYICI --- */
 .flower-container {
     position: relative;
     width: 200px;
-    height: 400px;
+    height: 450px; /* Biraz daha uzun */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+    z-index: 1; /* Bulutların önünde */
 }
 
-/* --- Çiçeğin Sabit Kısımları --- */
+/* --- SAP VE YAPRAKLAR (Daha gerçekçi renkler) --- */
 .stem {
-    width: 15px;
-    height: 150px;
-    background-color: #228B22;
-    border-radius: 10px;
+    width: 20px;
+    height: 180px;
+    /* Düz renk yerine gradyan ile derinlik */
+    background: linear-gradient(to right, #1a6b1a, #2e8b2e, #1a6b1a);
+    border-radius: 15px;
     z-index: 1;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
 }
 
 .leaf {
     position: absolute;
-    width: 50px;
-    height: 30px;
-    background-color: #228B22;
-    border-radius: 50% 0 50% 0;
-    bottom: 70px;
+    width: 60px;
+    height: 35px;
+    background: linear-gradient(to bottom right, #2e8b2e, #1a6b1a);
+    border-radius: 0 50% 0 50%; /* Daha doğal yaprak şekli */
+    bottom: 80px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }
 
 .leaf.left {
-    left: 50px;
-    transform: rotate(-20deg);
+    left: 40px;
+    transform: rotate(-25deg);
 }
 
 .leaf.right {
-    right: 50px;
-    transform: rotate(20deg) scaleX(-1);
+    right: 40px;
+    transform: rotate(25deg) scaleX(-1);
 }
 
-/* --- Çiçeğin Dönen Kafası --- */
+/* --- DÖNEN KAFA --- */
 .flower-head-wrapper {
     position: absolute;
-    bottom: 140px;
+    bottom: 160px;
     z-index: 2;
     transform-origin: center center;
-    transition: transform 0.1s ease-out;
+    /* Dönüşü biraz daha yumuşattık (0.1s -> 0.15s) */
+    transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2)); /* Kafaya gölge */
 }
 
-/* Sarı Yapraklar */
+/* SARI YAPRAKLAR (Daha parlak ve katmanlı) */
 .petals {
-    width: 150px;
-    height: 150px;
-    background-color: #FFD700;
+    width: 160px;
+    height: 160px;
+    /* Merkezden dışa doğru parlayan sarı gradyan */
+    background: radial-gradient(circle, #fff700, #ffcc00, #ffa500);
     border-radius: 50%;
+    /* Tırtıklı kenar efekti için çoklu gölge */
     box-shadow: 
-        0 0 0 10px #FFA500,
-        inset 0 0 30px rgba(255, 165, 0, 0.5);
+        0 0 0 5px #ffae00,
+        0 0 0 10px #ff9100,
+        inset 0 0 40px rgba(255, 145, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
-/* Yüz */
+/* YÜZ KISMI */
 .face {
-    width: 80px;
-    height: 80px;
-    background-color: #8B4513;
+    width: 90px;
+    height: 90px;
+    /* Kahverengi tohum dokusu */
+    background: radial-gradient(circle at center, #7a4a20 30%, #5c3616 90%);
     border-radius: 50%;
-    background-image: radial-gradient(circle at center, #6b3e11 2px, transparent 3px);
-    background-size: 10px 10px;
+    
+    /* Tohum noktaları */
+    background-image: 
+        radial-gradient(circle at center, rgba(0,0,0,0.3) 2px, transparent 3px),
+        radial-gradient(circle at center, #7a4a20 30%, #5c3616 90%);
+    background-size: 12px 12px, 100%;
+    
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #FFD700;
-    font-weight: bold;
+    color: #ffd900;
+    position: relative;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
 }
 
 .eyes {
-    font-size: 18px;
-    margin-bottom: 5px;
+    font-size: 20px;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 .mouth {
-    font-size: 24px;
+    font-size: 26px;
     transform: rotate(90deg);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
-/* Mesaj */
-.message {
+/* Yeni eklenen sevimli allıklar */
+.blush {
     position: absolute;
-    bottom: 20px;
-    font-size: 1.2rem;
-    color: #333;
+    width: 15px;
+    height: 8px;
+    background-color: rgba(255, 100, 100, 0.4);
+    border-radius: 50%;
+    top: 55px;
+}
+.blush.left { left: 15px; }
+.blush.right { right: 15px; }
+
+/* --- MESAJ KUTUSU --- */
+.message-container {
+    position: absolute;
+    bottom: 30px;
     text-align: center;
-    width: 100%;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.message {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #333;
+    font-weight: bold;
+}
+.sub-message {
+    margin: 5px 0 0 0;
+    font-size: 0.8rem;
+    color: #666;
 }
