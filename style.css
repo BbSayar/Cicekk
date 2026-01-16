@@ -1,179 +1,215 @@
-/* --- GENEL DÜZEN --- */
+/* --- GENEL AYARLAR --- */
 body {
     margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Daha yumuşak bir gökyüzü geçişi */
-    background: radial-gradient(circle at center, #a8e6ff, #74c2e1);
+    background: linear-gradient(180deg, #87CEEB 0%, #E0F7FA 100%);
     overflow: hidden;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    touch-action: none; /* Mobilde sayfa kaymasını engeller */
+    font-family: 'Segoe UI', sans-serif;
 }
 
-/* --- ARKA PLAN EFEKTLERİ (BULUTLAR) --- */
-.background-effects {
+/* --- ÇİMEN VE BULUTLAR --- */
+.grass {
     position: absolute;
+    bottom: 0;
     width: 100%;
-    height: 100%;
+    height: 120px;
+    background: linear-gradient(to top, #2e8b57, #66CDAA);
+    border-radius: 50% 50% 0 0 / 20px 20px 0 0;
     z-index: 0;
 }
 
 .cloud {
     position: absolute;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 50%;
-    filter: blur(20px);
-    animation: floatCloud 20s infinite linear;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50px;
+    animation: floatCloud 25s infinite linear;
+    z-index: 0;
+}
+.c1 { width: 120px; height: 60px; top: 15%; left: -150px; }
+.c2 { width: 180px; height: 80px; top: 25%; left: -200px; animation-duration: 40s; animation-delay: -10s; }
+
+@keyframes floatCloud { 
+    from { transform: translateX(-200px); } 
+    to { transform: translateX(120vw); } 
 }
 
-.c1 { width: 200px; height: 100px; top: 20%; left: -200px; }
-.c2 { width: 300px; height: 150px; top: 50%; left: -300px; animation-duration: 35s; animation-delay: -5s; }
-
-@keyframes floatCloud {
-    from { transform: translateX(0); }
-    to { transform: translateX(120vw); }
-}
-
-/* --- ÇİÇEK KAPSYICI --- */
+/* --- ÇİÇEK İSKELETİ --- */
 .flower-container {
     position: relative;
-    width: 200px;
-    height: 450px; /* Biraz daha uzun */
+    width: 250px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    z-index: 1; /* Bulutların önünde */
+    z-index: 2;
+    /* Hafif sallanma efekti */
+    animation: sway 3s infinite ease-in-out alternate;
+    transform-origin: bottom center;
 }
 
-/* --- SAP VE YAPRAKLAR (Daha gerçekçi renkler) --- */
+@keyframes sway {
+    from { transform: rotate(-2deg); }
+    to { transform: rotate(2deg); }
+}
+
+/* --- SAP VE GÖVDE YAPRAKLARI --- */
 .stem {
     width: 20px;
-    height: 180px;
-    /* Düz renk yerine gradyan ile derinlik */
-    background: linear-gradient(to right, #1a6b1a, #2e8b2e, #1a6b1a);
-    border-radius: 15px;
+    height: 200px;
+    background: linear-gradient(90deg, #556B2F, #6B8E23, #556B2F);
+    border-radius: 10px;
     z-index: 1;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
 }
 
 .leaf {
     position: absolute;
-    width: 60px;
-    height: 35px;
-    background: linear-gradient(to bottom right, #2e8b2e, #1a6b1a);
-    border-radius: 0 50% 0 50%; /* Daha doğal yaprak şekli */
-    bottom: 80px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    width: 70px;
+    height: 40px;
+    background: #6B8E23;
+    border-radius: 0 50% 0 50%;
+    bottom: 90px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
 }
+.leaf.left { left: 30px; transform: rotate(-30deg); }
+.leaf.right { right: 30px; transform: rotate(30deg) scaleX(-1); }
 
-.leaf.left {
-    left: 40px;
-    transform: rotate(-25deg);
-}
-
-.leaf.right {
-    right: 40px;
-    transform: rotate(25deg) scaleX(-1);
-}
-
-/* --- DÖNEN KAFA --- */
+/* --- KAFA GRUBU (DÖNEN KISIM) --- */
 .flower-head-wrapper {
     position: absolute;
-    bottom: 160px;
-    z-index: 2;
-    transform-origin: center center;
-    /* Dönüşü biraz daha yumuşattık (0.1s -> 0.15s) */
-    transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2)); /* Kafaya gölge */
-}
-
-/* SARI YAPRAKLAR (Daha parlak ve katmanlı) */
-.petals {
-    width: 160px;
-    height: 160px;
-    /* Merkezden dışa doğru parlayan sarı gradyan */
-    background: radial-gradient(circle, #fff700, #ffcc00, #ffa500);
-    border-radius: 50%;
-    /* Tırtıklı kenar efekti için çoklu gölge */
-    box-shadow: 
-        0 0 0 5px #ffae00,
-        0 0 0 10px #ff9100,
-        inset 0 0 40px rgba(255, 145, 0, 0.6);
+    bottom: 180px;
+    z-index: 5;
+    width: 200px;
+    height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+    /* Dönüş merkezi tam orta */
+    transform-origin: center center; 
+    /* Yumuşak dönüş geçişi */
+    transition: transform 0.1s linear; 
 }
 
-/* YÜZ KISMI */
+/* --- YAPRAKLAR (PETALS) --- */
+.petals-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation: bloom 1s ease-out; /* Açılış efekti */
+}
+
+.petal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 100px;
+    background: linear-gradient(to bottom, #FFD700, #FFA500);
+    border-radius: 20px;
+    transform-origin: center bottom; /* Merkezden dışa dönmesi için */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    margin-left: -20px; /* Ortalamak için */
+    margin-top: -100px;
+    z-index: 1;
+}
+
+/* 12 Yaprağın açılarını tek tek ayarlıyoruz */
+.petal:nth-child(1) { transform: rotate(0deg) translateY(-40px); }
+.petal:nth-child(2) { transform: rotate(30deg) translateY(-40px); }
+.petal:nth-child(3) { transform: rotate(60deg) translateY(-40px); }
+.petal:nth-child(4) { transform: rotate(90deg) translateY(-40px); }
+.petal:nth-child(5) { transform: rotate(120deg) translateY(-40px); }
+.petal:nth-child(6) { transform: rotate(150deg) translateY(-40px); }
+.petal:nth-child(7) { transform: rotate(180deg) translateY(-40px); }
+.petal:nth-child(8) { transform: rotate(210deg) translateY(-40px); }
+.petal:nth-child(9) { transform: rotate(240deg) translateY(-40px); }
+.petal:nth-child(10) { transform: rotate(270deg) translateY(-40px); }
+.petal:nth-child(11) { transform: rotate(300deg) translateY(-40px); }
+.petal:nth-child(12) { transform: rotate(330deg) translateY(-40px); }
+
+/* --- YÜZ (FACE) --- */
 .face {
-    width: 90px;
-    height: 90px;
-    /* Kahverengi tohum dokusu */
-    background: radial-gradient(circle at center, #7a4a20 30%, #5c3616 90%);
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, #8B4513 40%, #5D2906 100%);
     border-radius: 50%;
-    
-    /* Tohum noktaları */
-    background-image: 
-        radial-gradient(circle at center, rgba(0,0,0,0.3) 2px, transparent 3px),
-        radial-gradient(circle at center, #7a4a20 30%, #5c3616 90%);
-    background-size: 12px 12px, 100%;
-    
+    z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #ffd900;
+    box-shadow: inset 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* Gözler */
+.eye-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 5px;
+}
+.eye {
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
     position: relative;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    overflow: hidden;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
 }
-
-.eyes {
-    font-size: 20px;
-    margin-bottom: 8px;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-}
-.mouth {
-    font-size: 26px;
-    transform: rotate(90deg);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-}
-
-/* Yeni eklenen sevimli allıklar */
-.blush {
+.pupil {
+    width: 12px;
+    height: 12px;
+    background: #000;
+    border-radius: 50%;
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Ortala */
+    /* Göz bebeği hareketi JS ile kontrol edilecek */
+}
+
+/* Yanaklar */
+.cheeks {
+    position: absolute;
+    top: 55px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+.blush {
     width: 15px;
     height: 8px;
-    background-color: rgba(255, 100, 100, 0.4);
+    background: rgba(255, 100, 100, 0.4);
     border-radius: 50%;
-    top: 55px;
 }
-.blush.left { left: 15px; }
-.blush.right { right: 15px; }
 
-/* --- MESAJ KUTUSU --- */
+/* Ağız */
+.mouth {
+    width: 20px;
+    height: 10px;
+    border-bottom: 3px solid #FFD700;
+    border-radius: 0 0 20px 20px;
+    margin-top: 5px;
+}
+
+/* --- MESAJ --- */
 .message-container {
     position: absolute;
     bottom: 30px;
-    text-align: center;
-    z-index: 10;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 10px 20px;
+    background: rgba(255,255,255,0.9);
+    padding: 10px 25px;
     border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    z-index: 10;
 }
-
 .message {
     margin: 0;
-    font-size: 1.3rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
-    font-weight: bold;
-}
-.sub-message {
-    margin: 5px 0 0 0;
-    font-size: 0.8rem;
-    color: #666;
+    font-weight: 600;
 }
