@@ -1,0 +1,108 @@
+/* Genel sayfa düzeni */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #87CEEB, #e0f7fa);
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Tüm çiçeği kapsayan kutu */
+.flower-container {
+    position: relative;
+    width: 200px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* --- Çiçeğin Sabit Kısımları --- */
+.stem {
+    width: 15px;
+    height: 150px;
+    background-color: #228B22;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.leaf {
+    position: absolute;
+    width: 50px;
+    height: 30px;
+    background-color: #228B22;
+    border-radius: 50% 0 50% 0;
+    bottom: 70px;
+}
+
+.leaf.left {
+    left: 50px;
+    transform: rotate(-20deg);
+}
+
+.leaf.right {
+    right: 50px;
+    transform: rotate(20deg) scaleX(-1);
+}
+
+/* --- Çiçeğin Dönen Kafası --- */
+.flower-head-wrapper {
+    position: absolute;
+    bottom: 140px;
+    z-index: 2;
+    transform-origin: center center;
+    transition: transform 0.1s ease-out;
+}
+
+/* Sarı Yapraklar */
+.petals {
+    width: 150px;
+    height: 150px;
+    background-color: #FFD700;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 0 10px #FFA500,
+        inset 0 0 30px rgba(255, 165, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Yüz */
+.face {
+    width: 80px;
+    height: 80px;
+    background-color: #8B4513;
+    border-radius: 50%;
+    background-image: radial-gradient(circle at center, #6b3e11 2px, transparent 3px);
+    background-size: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #FFD700;
+    font-weight: bold;
+}
+
+.eyes {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+.mouth {
+    font-size: 24px;
+    transform: rotate(90deg);
+}
+
+/* Mesaj */
+.message {
+    position: absolute;
+    bottom: 20px;
+    font-size: 1.2rem;
+    color: #333;
+    text-align: center;
+    width: 100%;
+}
